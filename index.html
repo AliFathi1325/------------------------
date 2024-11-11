@@ -37,7 +37,7 @@
             display: block; /* نمایش تنها تصویر فعال */
         }
 
-        /* دکمه دانلود */
+        /* دکمه دانلود فقط برای تصویر اول */
         .download-btn {
             position: absolute;
             top: 20px;
@@ -50,6 +50,7 @@
             cursor: pointer;
             z-index: 10; /* اطمینان از نمایش دکمه بالاتر از تصاویر */
             font-size: 16px; /* اندازه متن */
+            display: none; /* دکمه را مخفی می‌کنیم */
         }
 
         .download-btn:hover {
@@ -62,9 +63,9 @@
 
 <div class="gallery">
     <!-- تصویر اول -->
-    <img src="1.png" alt="Image 1" class="active">
+    <img src="1.png" alt="Image 1" class="active" id="image1">
     <!-- دکمه دانلود برای تصویر اول -->
-    <button class="download-btn" onclick="downloadImage('1.png')">دانلود</button>
+    <button class="download-btn" id="downloadBtn" onclick="downloadImage('1.png')">دانلود</button>
     
     <img src="2.png" alt="Image 2">
     <img src="3.png" alt="Image 3">
@@ -79,6 +80,7 @@
 
 <script>
     const images = document.querySelectorAll('.gallery img');
+    const downloadBtn = document.getElementById('downloadBtn');
     let currentImageIndex = 0;
 
     // تابع نمایش تصویر بعدی
@@ -87,6 +89,7 @@
             images[currentImageIndex].classList.remove('active');
             currentImageIndex++;
             images[currentImageIndex].classList.add('active');
+            toggleDownloadButton(); // نمایش/مخفی کردن دکمه دانلود
         }
     }
 
@@ -96,6 +99,16 @@
             images[currentImageIndex].classList.remove('active');
             currentImageIndex--;
             images[currentImageIndex].classList.add('active');
+            toggleDownloadButton(); // نمایش/مخفی کردن دکمه دانلود
+        }
+    }
+
+    // تابع مخفی/نمایش دکمه دانلود
+    function toggleDownloadButton() {
+        if (currentImageIndex === 0) {
+            downloadBtn.style.display = 'block'; // فقط وقتی تصویر اول نمایش داده شده دکمه دانلود نشان داده می‌شود
+        } else {
+            downloadBtn.style.display = 'none'; // در غیر این صورت دکمه مخفی است
         }
     }
 
@@ -139,6 +152,10 @@
         a.download = imageSrc; // نام فایل برای دانلود
         a.click(); // کلیک برای دانلود
     }
+
+    // ابتدا دکمه دانلود را مخفی می‌کنیم
+    toggleDownloadButton();
+
 </script>
 
 </body>
