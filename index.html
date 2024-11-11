@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Full-Screen Image Scroll with Touch</title>
+    <title>Clinical interview</title>
     <style>
-        body,
-        html {
+        body, html {
             margin: 0;
             padding: 0;
-            overflow: hidden;
-            /* جلوگیری از اسکرول اضافی */
+            overflow: hidden; /* جلوگیری از اسکرول اضافی */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -19,14 +16,12 @@
             height: 100vh;
             background-color: #000;
         }
-
         .gallery {
             position: relative;
             width: 100%;
             height: 100%;
             overflow: hidden;
         }
-
         .gallery img {
             position: absolute;
             top: 50%;
@@ -36,140 +31,85 @@
             max-width: 100%;
             max-height: 100%;
             transform: translate(-50%, -50%);
-            display: none;
-            /* پنهان کردن همه تصاویر */
+            display: none; /* پنهان کردن همه تصاویر */
         }
-
         .gallery img.active {
-            display: block;
-            /* نمایش تنها تصویر فعال */
-        }
-
-        /* دکمه دانلود فقط برای تصویر اول */
-        .download-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: rgba(0, 0, 0, 0.6);
-            /* رنگ پس‌زمینه دکمه */
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            z-index: 10;
-            /* اطمینان از نمایش دکمه بالاتر از تصاویر */
-            font-size: 16px;
-            /* اندازه متن */
-            display: none;
-            /* دکمه را مخفی می‌کنیم */
-        }
-
-        .download-btn:hover {
-            background-color: rgba(0, 0, 0, 0.8);
+            display: block; /* نمایش تنها تصویر فعال */
         }
     </style>
 </head>
-
 <body>
 
-    <div class="gallery">
-        <!-- تصویر اول -->
-        <img src="1.png" alt="Image 1" class="active" id="image1">
-        <!-- دکمه دانلود فقط برای تصویر اول -->
-        <button class="download-btn" id="downloadBtn" onclick="downloadImage('بخش اول.pdf')">دانلود</button>
+<div class="gallery">
+    <img src="1.png" alt="Image 1" class="active">
+    <img src="2.png" alt="Image 2">
+    <img src="3.png" alt="Image 3">
+    <img src="4.png" alt="Image 4">
+    <img src="5.png" alt="Image 5">
+    <img src="6.png" alt="Image 6">
+    <img src="7.png" alt="Image 7">
+    <img src="8.png" alt="Image 8">
+    <img src="9.png" alt="Image 9">
+    <img src="10.png" alt="Image 10">
+</div>
 
-        <img src="2.png" alt="Image 2">
-        <img src="3.png" alt="Image 3">
-        <img src="4.png" alt="Image 4">
-        <img src="5.png" alt="Image 5">
-        <img src="6.png" alt="Image 6">
-        <img src="7.png" alt="Image 7">
-        <img src="8.png" alt="Image 8">
-        <img src="9.png" alt="Image 9">
-        <img src="10.png" alt="Image 10">
-    </div>
+<script>
+    const images = document.querySelectorAll('.gallery img');
+    let currentImageIndex = 0;
 
-    <script>
-        const images = document.querySelectorAll('.gallery img');
-        const downloadBtn = document.getElementById('downloadBtn');
-        let currentImageIndex = 0;
-
-        // تابع نمایش تصویر بعدی
-        function showNextImage() {
-            if (currentImageIndex < images.length - 1) {
-                images[currentImageIndex].classList.remove('active');
-                currentImageIndex++;
-                images[currentImageIndex].classList.add('active');
-                toggleDownloadButton(); // نمایش/مخفی کردن دکمه دانلود
-            }
+    // تابع نمایش تصویر بعدی
+    function showNextImage() {
+        // اگر به آخرین تصویر نرسیدیم، تصویر بعدی را نمایش دهیم
+        if (currentImageIndex < images.length - 1) {
+            images[currentImageIndex].classList.remove('active');
+            currentImageIndex++;
+            images[currentImageIndex].classList.add('active');
         }
+    }
 
-        // تابع نمایش تصویر قبلی
-        function showPreviousImage() {
-            if (currentImageIndex > 0) {
-                images[currentImageIndex].classList.remove('active');
-                currentImageIndex--;
-                images[currentImageIndex].classList.add('active');
-                toggleDownloadButton(); // نمایش/مخفی کردن دکمه دانلود
-            }
+    // تابع نمایش تصویر قبلی
+    function showPreviousImage() {
+        // اگر به اولین تصویر نرسیدیم، تصویر قبلی را نمایش دهیم
+        if (currentImageIndex > 0) {
+            images[currentImageIndex].classList.remove('active');
+            currentImageIndex--;
+            images[currentImageIndex].classList.add('active');
         }
+    }
 
-        // تابع مخفی/نمایش دکمه دانلود
-        function toggleDownloadButton() {
-            if (currentImageIndex === 0) {
-                downloadBtn.style.display = 'block'; // فقط وقتی تصویر اول نمایش داده شده دکمه دانلود نشان داده می‌شود
-            } else {
-                downloadBtn.style.display = 'none'; // در غیر این صورت دکمه مخفی است
-            }
+    // رویداد اسکرول برای موس و لپ‌تاپ
+    window.addEventListener('wheel', (event) => {
+        if (event.deltaY > 0) {
+            showNextImage(); // اسکرول به پایین
+        } else if (event.deltaY < 0) {
+            showPreviousImage(); // اسکرول به بالا
         }
+    });
 
-        // رویداد اسکرول برای موس و لپ‌تاپ
-        window.addEventListener('wheel', (event) => {
-            if (event.deltaY > 0) {
-                showNextImage(); // اسکرول به پایین
-            } else if (event.deltaY < 0) {
-                showPreviousImage(); // اسکرول به بالا
-            }
-        });
+    // متغیرها برای پیگیری رویداد لمسی
+    let touchStartY = 0;
+    let touchEndY = 0;
 
-        // متغیرها برای پیگیری رویداد لمسی
-        let touchStartY = 0;
-        let touchEndY = 0;
+    // رویداد شروع لمس
+    window.addEventListener('touchstart', (event) => {
+        touchStartY = event.changedTouches[0].clientY;
+    });
 
-        // رویداد شروع لمس
-        window.addEventListener('touchstart', (event) => {
-            touchStartY = event.changedTouches[0].clientY;
-        });
+    // رویداد پایان لمس
+    window.addEventListener('touchend', (event) => {
+        touchEndY = event.changedTouches[0].clientY;
+        handleTouch();
+    });
 
-        // رویداد پایان لمس
-        window.addEventListener('touchend', (event) => {
-            touchEndY = event.changedTouches[0].clientY;
-            handleTouch();
-        });
-
-        // تابع تشخیص جهت سوایپ
-        function handleTouch() {
-            if (touchStartY - touchEndY > 50) {
-                showNextImage(); // سوایپ به بالا برای رفتن به تصویر بعدی
-            } else if (touchEndY - touchStartY > 50) {
-                showPreviousImage(); // سوایپ به پایین برای رفتن به تصویر قبلی
-            }
+    // تابع تشخیص جهت سوایپ
+    function handleTouch() {
+        if (touchStartY - touchEndY > 50) {
+            showNextImage(); // سوایپ به بالا برای رفتن به تصویر بعدی
+        } else if (touchEndY - touchStartY > 50) {
+            showPreviousImage(); // سوایپ به پایین برای رفتن به تصویر قبلی
         }
-
-        // تابع دانلود تصویر
-        function downloadImage(imageSrc) {
-            const a = document.createElement('a');
-            a.href = imageSrc; // آدرس تصویر
-            a.download = imageSrc; // نام فایل برای دانلود
-            a.click(); // کلیک برای دانلود
-        }
-
-        // ابتدا دکمه دانلود را مخفی می‌کنیم
-        toggleDownloadButton();
-
-    </script>
+    }
+</script>
 
 </body>
-
 </html>
