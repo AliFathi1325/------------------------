@@ -36,12 +36,35 @@
         .gallery img.active {
             display: block; /* نمایش تنها تصویر فعال */
         }
+
+        /* دکمه دانلود */
+        .download-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .download-btn:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+
     </style>
 </head>
 <body>
 
 <div class="gallery">
+    <!-- تصویر اول -->
     <img src="1.png" alt="Image 1" class="active">
+    <!-- دکمه دانلود برای تصویر اول -->
+    <button class="download-btn" onclick="downloadImage('1.png')">دانلود</button>
+    
     <img src="2.png" alt="Image 2">
     <img src="3.png" alt="Image 3">
     <img src="4.png" alt="Image 4">
@@ -59,7 +82,6 @@
 
     // تابع نمایش تصویر بعدی
     function showNextImage() {
-        // اگر به آخرین تصویر نرسیدیم، تصویر بعدی را نمایش دهیم
         if (currentImageIndex < images.length - 1) {
             images[currentImageIndex].classList.remove('active');
             currentImageIndex++;
@@ -69,7 +91,6 @@
 
     // تابع نمایش تصویر قبلی
     function showPreviousImage() {
-        // اگر به اولین تصویر نرسیدیم، تصویر قبلی را نمایش دهیم
         if (currentImageIndex > 0) {
             images[currentImageIndex].classList.remove('active');
             currentImageIndex--;
@@ -108,6 +129,14 @@
         } else if (touchEndY - touchStartY > 50) {
             showPreviousImage(); // سوایپ به پایین برای رفتن به تصویر قبلی
         }
+    }
+
+    // تابع دانلود تصویر
+    function downloadImage(imageSrc) {
+        const a = document.createElement('a');
+        a.href = imageSrc; // آدرس تصویر
+        a.download = imageSrc; // نام فایل برای دانلود
+        a.click(); // کلیک برای دانلود
     }
 </script>
 
