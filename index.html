@@ -59,16 +59,20 @@
 
     // تابع نمایش تصویر بعدی
     function showNextImage() {
-        images[currentImageIndex].classList.remove('active');
-        currentImageIndex = (currentImageIndex + 1) % images.length;
-        images[currentImageIndex].classList.add('active');
+        if (currentImageIndex < images.length - 1) {  // اگر به آخرین تصویر نرسیدیم
+            images[currentImageIndex].classList.remove('active');
+            currentImageIndex++;
+            images[currentImageIndex].classList.add('active');
+        }
     }
 
     // تابع نمایش تصویر قبلی
     function showPreviousImage() {
-        images[currentImageIndex].classList.remove('active');
-        currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-        images[currentImageIndex].classList.add('active');
+        if (currentImageIndex > 0) {  // اگر به اولین تصویر نرسیدیم
+            images[currentImageIndex].classList.remove('active');
+            currentImageIndex--;
+            images[currentImageIndex].classList.add('active');
+        }
     }
 
     // رویداد اسکرول برای موس و لپ‌تاپ
@@ -107,3 +111,4 @@
 
 </body>
 </html>
+س
