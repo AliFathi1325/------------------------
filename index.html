@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinical interview</title>
+    <style>
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            /* جلوگیری از اسکرول اضافی */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000;
+        }
+
+        .gallery {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .gallery img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            max-height: 100%;
+            transform: translate(-50%, -50%);
+            /* نمایش کامل و مرکز‌چین شده */
+            display: none;
+            /* پنهان کردن همه تصاویر */
+        }
+
+        .gallery img.active {
+            display: block;
+            /* نمایش تنها تصویر فعال */
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="gallery">
+        <img src="1.png" alt="Image 1" class="active">
+        <img src="2.png" alt="Image 2">
+        <img src="3.png" alt="Image 3">
+        <img src="4.png" alt="Image 4">
+        <img src="5.png" alt="Image 5">
+        <img src="6.png" alt="Image 6">
+        <img src="7.png" alt="Image 7">
+        <img src="8.png" alt="Image 8">
+        <img src="9.png" alt="Image 9">
+        <img src="10.png" alt="Image 10">
+    </div>
+
+    <script>
+        const images = document.querySelectorAll('.gallery img');
+        let currentImageIndex = 0;
+
+        // تابع نمایش تصویر بعدی
+        function showNextImage() {
+            images[currentImageIndex].classList.remove('active'); // پنهان کردن تصویر فعلی
+            currentImageIndex = (currentImageIndex + 1) % images.length; // رفتن به تصویر بعدی و چرخش به اولین تصویر
+            images[currentImageIndex].classList.add('active'); // نمایش تصویر جدید
+        }
+
+        // تابع نمایش تصویر قبلی
+        function showPreviousImage() {
+            images[currentImageIndex].classList.remove('active'); // پنهان کردن تصویر فعلی
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length; // رفتن به تصویر قبلی و چرخش به آخرین تصویر
+            images[currentImageIndex].classList.add('active'); // نمایش تصویر جدید
+        }
+
+        // رویداد اسکرول برای نمایش تصویر بعدی یا قبلی
+        window.addEventListener('wheel', (event) => {
+            if (event.deltaY > 0) {
+                showNextImage(); // اسکرول به پایین
+            } else if (event.deltaY < 0) {
+                showPreviousImage(); // اسکرول به بالا
+            }
+        });
+    </script>
+
+</body>
+
+</html>
